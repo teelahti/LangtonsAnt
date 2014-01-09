@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Langton's Ant</title>
+</head>
+<body>
+    <h1>Langton's Ant</h1>
+    <p>See e.g. <a href="http://en.wikipedia.org/wiki/Langton%27s_ant">Wikipedia</a></p>
+    <canvas id="nest" width="800" height="800"></canvas>
+    <div id="step"></div>
+    <script src="lib/Queue.js"></script>
+    <script src="lib/Ant.js"></script>
+    <script src="lib/Grid.js"></script>
+    <script>
+        // TODO: Could separate "calculation" to separate web worker 
+        var g = new Grid(document.getElementById("nest"), 100),
+            stepCounter = document.getElementById("step");
+
+        // TODO: Allow adding more ants by clicking the canvas
+        var ant1 = new Ant(50, 50, "#000");
+        g.injectAnt(ant1);
+
+        //var ant2 = new Ant(10, 10, "#ccc");
+        //g.injectAnt(ant2);
+
+        var last = 0;
+
+        // TODO: Display values per ant, now supports only one ant
+        (function updateAntStepsCounter() {
+            stepCounter.innerHTML = ant1.steps + " (" + (ant1.steps - last) + " steps/sec)";
+            last = ant1.steps;
+            setTimeout(updateAntStepsCounter, 1000);
+        })();
+    </script>
+</body>
+</html>
